@@ -1,0 +1,13 @@
+# Jitter Observatory examples.
+
+add_executable(example_summarize summarize_scenario.cpp)
+target_link_libraries(example_summarize PRIVATE JitterObservatory::jitter_observatory)
+jitter_configure_target(example_summarize)
+
+add_executable(example_deterministic_replay deterministic_replay.cpp)
+target_link_libraries(example_deterministic_replay PRIVATE JitterObservatory::jitter_observatory)
+jitter_configure_target(example_deterministic_replay)
+
+add_executable(example_lock_audit lock_audit_walkthrough.cpp)
+target_link_libraries(example_lock_audit PRIVATE JitterObservatory::jitter_observatory)
+jitter_configure_target(example_lock_audit)

@@ -1,0 +1,43 @@
+# Build outputs
+build/
+out/
+dist/
+cmake-build-*/
+*.obj
+*.o
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.ilk
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeUserPresets.json
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+install_manifest.txt
+_deps/
+
+# IDE / editors
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.swp
+*~
+
+# Test and runtime artifacts
+*.jostore
+*.jostore.tmp
+*.log
+*.tmp
+crashdumps/
+core
+core.*

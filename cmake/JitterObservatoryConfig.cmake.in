@@ -1,0 +1,14 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(Threads)
+
+if(NOT TARGET JitterObservatory::jitter_observatory)
+    include("${CMAKE_CURRENT_LIST_DIR}/JitterObservatoryTargets.cmake")
+endif()
+
+set(JitterObservatory_VERSION "@PROJECT_VERSION@")
+set_and_check(JitterObservatory_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
+
+check_required_components(JitterObservatory)
