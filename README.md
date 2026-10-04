@@ -1,7 +1,7 @@
 # Jitter Observatory
 
-A standalone, vendor-neutral **Fabric OS runtime that owns observation of latency
-variance and path timing instability**, built by Summon Software Labs.
+A standalone, vendor-neutral **runtime that owns observation of latency
+variance and path timing instability**.
 
 Jitter Observatory ingests typed latency observations, keeps them in bounded windows,
 computes explicitly named jitter metrics, decides whether the evidence is admissible,
