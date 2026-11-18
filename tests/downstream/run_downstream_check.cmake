@@ -7,6 +7,12 @@ foreach(required JITTER_SOURCE_DIR JITTER_BINARY_DIR JITTER_STAGE)
     endif()
 endforeach()
 
+# A package built with the sanitizer needs an instrumented consumer.
+set(consumer_asan OFF)
+if(DEFINED JITTER_CONSUMER_ASAN AND JITTER_CONSUMER_ASAN)
+    set(consumer_asan ON)
+endif()
+
 set(stage "${JITTER_STAGE}")
 file(REMOVE_RECURSE "${stage}")
 file(MAKE_DIRECTORY "${stage}")
@@ -42,6 +48,7 @@ execute_process(
             -G "${JITTER_GENERATOR}"
             -DCMAKE_BUILD_TYPE=${JITTER_CONFIG}
             -DCMAKE_PREFIX_PATH=${install_prefix}
+            -DJITTER_CONSUMER_ASAN=${consumer_asan}
     RESULT_VARIABLE configure_result
     OUTPUT_VARIABLE configure_output
     ERROR_VARIABLE configure_error)

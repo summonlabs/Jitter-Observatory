@@ -97,8 +97,15 @@ Result<Listener> listen_tcp(const std::string& bind_address, std::uint16_t port)
             continue;
         }
         const int reuse = 1;
+#if defined(_WIN32)
+        // SO_REUSEADDR on Windows lets a second socket bind a port that is still
+        // listening; exclusive use makes that second bind fail instead.
+        static_cast<void>(setsockopt(listener, SOL_SOCKET, SO_EXCLUSIVEADDRUSE,
+                                     reinterpret_cast<const char*>(&reuse), sizeof(reuse)));
+#else
         static_cast<void>(setsockopt(listener, SOL_SOCKET, SO_REUSEADDR,
                                      reinterpret_cast<const char*>(&reuse), sizeof(reuse)));
+#endif
         if (::bind(listener, candidate->ai_addr, static_cast<int>(candidate->ai_addrlen)) == 0 &&
             ::listen(listener, 8) == 0) {
             break;

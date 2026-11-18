@@ -74,8 +74,10 @@ function(jitter_configure_target target)
 
     if(JITTER_ENABLE_ASAN)
         if(MSVC)
-            target_compile_options(${target} PRIVATE /fsanitize=address)
-            target_link_options(${target} PRIVATE /INCREMENTAL:NO)
+            # Debug information is required: without it MSVC warns C5072 for
+            # every source, which JITTER_WARNINGS_AS_ERRORS turns into an error.
+            target_compile_options(${target} PRIVATE /fsanitize=address /Zi)
+            target_link_options(${target} PRIVATE /INCREMENTAL:NO /DEBUG)
         else()
             target_compile_options(${target} PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer -g)
             target_link_options(${target} PRIVATE -fsanitize=address,undefined)

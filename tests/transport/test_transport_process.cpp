@@ -13,6 +13,7 @@
 #include <jitter/codec.hpp>
 #include <jitter/engine.hpp>
 #include <jitter/scenario.hpp>
+#include <jitter/platform/socket.hpp>
 #include <jitter/transport.hpp>
 
 #include "support/fixtures.hpp"
@@ -290,4 +291,22 @@ JITTER_TEST(transport, frames_are_framed_and_checksummed_on_a_real_connection) {
     CHECK_EQ(observatory.counters().samples_stored, std::uint64_t{16});
     CHECK(server.stats().bytes_received > 0);
     CHECK(server.stats().bytes_sent > 0);
+}
+
+JITTER_TEST(transport, a_second_listener_cannot_take_a_listening_port) {
+    auto first = platform::listen_tcp("127.0.0.1", 0);
+    CHECK(first.ok());
+    if (!first.ok()) {
+        return;
+    }
+    platform::Listener held = first.value();
+    CHECK(held.port != 0);
+    auto second = platform::listen_tcp("127.0.0.1", held.port);
+    // Two observatories must never share one listening port: the second bind fails.
+    CHECK(!second.ok());
+    if (second.ok()) {
+        platform::Listener stray = second.value();
+        platform::close_listener(stray);
+    }
+    platform::close_listener(held);
 }

@@ -38,6 +38,7 @@ add_test(NAME downstream_find_package
         -DJITTER_CONFIG=$<CONFIG>
         -DJITTER_GENERATOR=${CMAKE_GENERATOR}
         -DJITTER_STAGE=${CMAKE_BINARY_DIR}/downstream-stage
+        -DJITTER_CONSUMER_ASAN=${JITTER_ENABLE_ASAN}
         -P ${CMAKE_CURRENT_SOURCE_DIR}/downstream/run_downstream_check.cmake)
 
 # The transport test needs to launch the probe process.
